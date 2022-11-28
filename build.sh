@@ -66,7 +66,7 @@ install -m 755 -o 0 -g 0  files/update-motd.d/* "$ROOT_DIR/etc/update-motd.d/"
 cp -r files/node-red "$ROOT_DIR/home/pi/.node-red"
 chown 1000:1000 -R "$ROOT_DIR/home/pi/.node-red"
 install -m 666 files/wpa_supplicant.example.conf "$ROOT_DIR/boot/wpa_supplicant.example.conf"
-echo "${TRAVIS_TAG:-vdev}" > "$ROOT_DIR/usr/lib/hub-version"
+echo "${VERSION:-vdev}" > "$ROOT_DIR/usr/lib/hub-version"
 
 
 step "Chroot enable"
@@ -96,15 +96,15 @@ step "Shrink img"
 img_shrink "$IMAGE"
 
 
-step "Zip $NAME-${TRAVIS_TAG:-vdev}"
-mv "$IMAGE" "$NAME-${TRAVIS_TAG:-vdev}.img"
-zip "$NAME-${TRAVIS_TAG:-vdev}.zip" "$NAME-${TRAVIS_TAG:-vdev}.img"
+step "Zip $NAME-${VERSION:-vdev}"
+mv "$IMAGE" "$NAME-${VERSION:-vdev}.img"
+zip "$NAME-${VERSION:-vdev}.zip" "$NAME-${VERSION:-vdev}.img"
 
 
 einfo "--- Grafana, InfluxDB, mqtt2influxdb ---"
 
 step "Rename img"
-mv "$NAME-${TRAVIS_TAG:-vdev}.img" "$IMAGE"
+mv "$NAME-${VERSION:-vdev}.img" "$IMAGE"
 
 
 step "Resize image"
@@ -142,6 +142,6 @@ step "Shrink img"
 img_shrink "$IMAGE"
 
 
-step "Zip $NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}"
-mv $IMAGE "$NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}.img"
-zip "$NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}.zip" "$NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}.img"
+step "Zip $NAME-grafana-influxdb-${VERSION:-vdev}"
+mv $IMAGE "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
+zip "$NAME-grafana-influxdb-${VERSION:-vdev}.zip" "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
