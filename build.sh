@@ -7,17 +7,13 @@ set -eu
 
 
 if [[ ! -v URL ]]; then
-URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/2020-02-13-raspbian-buster-lite.zip"
-SHA256="12ae6e17bf95b6ba83beca61e7394e7411b45eba7e6a520f434b0748ea7370e8"
+URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz"
+SHA256="9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da"
 NAME="hio-raspbian-buster-lite"
 fi
 
-echo $URL
-echo $SHA256
-echo $NAME
-
 IMAGE=${URL##*/}
-IMAGE="$(pwd)/${IMAGE%.*}.img"
+IMAGE="$(pwd)/${IMAGE%.*}"
 
 check_is_run_as_root
 
@@ -37,17 +33,17 @@ if [ ! -f /usr/bin/qemu-arm-static ]; then
 	die "Missing /usr/bin/qemu-arm-static"
 fi
 
-IMAGE_ZIP="${IMAGE}.zip"
+IMAGE_XZ="${IMAGE}.xz"
 
 step "Download"
-echo "$URL as $IMAGE_ZIP"
-wget -q "$URL" -O "$IMAGE_ZIP"
-check_sha256_sum "$IMAGE_ZIP" $SHA256
+echo "$URL as $IMAGE_XZ"
+wget -q "$URL" -O "$IMAGE_XZ"
+check_sha256_sum "$IMAGE_XZ" $SHA256
 
 
 step "Uzip"
-unxz "$IMAGE_ZIP"
-rm "$IMAGE_ZIP"
+unxz "$IMAGE_XZ"
+rm "$IMAGE_XZ"
 
 
 step "Resize image"
