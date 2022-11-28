@@ -4,9 +4,9 @@ set -eu
 
 . ./utils.sh
 
-echo $URL
-echo $SHA256
-echo $NAME
+echo ${URL}
+echo ${SHA256}
+echo ${NAME}
 
 if [[ ! -v URL ]]; then
 URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/2020-02-13-raspbian-buster-lite.zip"
