@@ -1,6 +1,7 @@
 #!/bin/bash
 # vim: set ts=4:
 
+
 step_cnt=0
 step() {
     step_cnt=$(($step_cnt + 1))
@@ -12,6 +13,7 @@ export DEBIAN_FRONTEND='noninteractive'
 
 set -eux
 
+sudo hostname hub
 step "Upgrade packages:"
 sudo apt update
 
