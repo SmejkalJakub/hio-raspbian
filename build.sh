@@ -71,11 +71,8 @@ echo "${VERSION:-vdev}" > "$ROOT_DIR/usr/lib/hub-version"
 step "Chroot enable"
 chroot_enable
 
-ls build
-ls build/raspbian
-
 step "Run install.sh"
-cat test.sh | chroot_bash
+cat install.sh | chroot_bash
 
 
 step "Clean up"

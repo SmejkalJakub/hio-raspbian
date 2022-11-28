@@ -144,7 +144,7 @@ chroot_disable() {
 chroot_bash() {
 	# HOME=/home/pi LC_ALL='C.UTF-8' chroot --userspec=1000:1000 ${ROOT_DIR} /bin/bash
 	# HOME=/home/pi LC_ALL='C.UTF-8' setarch linux32 chroot --userspec=1000:1000 ${ROOT_DIR} /bin/bash
-	systemd-nspawn -D "${ROOT_DIR}" -E HOME=/home/pi -E LC_ALL='C.UTF-8' -u 1000 bin/bash
+	systemd-nspawn -D "${ROOT_DIR}" -E HOME=/home/pi -E LC_ALL='C.UTF-8' --pipe -u 1000 bin/bash
 }
 
 chroot_cmd() {
