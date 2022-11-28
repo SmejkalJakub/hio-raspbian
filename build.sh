@@ -39,7 +39,11 @@ step "Download"
 echo "$URL as $IMAGE_XZ"
 wget -q "$URL" -O "$IMAGE_XZ"
 check_sha256_sum "$IMAGE_XZ" $SHA256
-
+ls /home/
+ls /home/runner
+ls /home/runner/work
+ls /home/runner/work/hio-raspbian
+ls /home/runner/work/hio-raspbian/hio-raspbian/
 
 step "Uzip"
 unxz "$IMAGE_XZ"
