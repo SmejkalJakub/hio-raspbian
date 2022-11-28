@@ -73,7 +73,7 @@ chroot_enable
 
 
 step "Run install.sh"
-cat install.sh | chroot_bash
+cat test.sh | chroot_bash
 
 
 step "Clean up"
