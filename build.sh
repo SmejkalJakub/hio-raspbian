@@ -40,7 +40,7 @@ check_sha256_sum "$IMAGE_ZIP" $SHA256
 
 
 step "Uzip"
-unzip -o "$IMAGE_ZIP"
+unxz "$IMAGE_ZIP"
 rm "$IMAGE_ZIP"
 
 
