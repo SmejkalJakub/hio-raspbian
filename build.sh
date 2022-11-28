@@ -39,14 +39,13 @@ step "Download"
 echo "$URL as $IMAGE_XZ"
 wget -q "$URL" -O "$IMAGE_XZ"
 check_sha256_sum "$IMAGE_XZ" $SHA256
-ls "/home/runner/work/hio-raspbian/hio-raspbian/"
-echo "-----------------------------------------------------------------"
-ls .
 
 step "Uzip"
 unxz "$IMAGE_XZ"
 rm "$IMAGE_XZ"
-
+ls "/home/runner/work/hio-raspbian/hio-raspbian/"
+echo "-----------------------------------------------------------------"
+ls .
 
 step "Resize image"
 img_resize "$IMAGE" 512
