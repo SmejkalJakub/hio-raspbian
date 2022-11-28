@@ -42,10 +42,10 @@ check_sha256_sum "$IMAGE_XZ" $SHA256
 
 step "Uzip"
 unxz "$IMAGE_XZ"
-rm "$IMAGE_XZ"
 ls "/home/runner/work/hio-raspbian/hio-raspbian/"
 echo "-----------------------------------------------------------------"
 ls .
+rm "$IMAGE_XZ"
 
 step "Resize image"
 img_resize "$IMAGE" 512
