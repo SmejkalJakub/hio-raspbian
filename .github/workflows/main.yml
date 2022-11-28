@@ -24,10 +24,11 @@ jobs:
         URL: https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz
         SHA256: 9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da
       run: |
-        export NAME=${{ env.NAME }}
-        export URL=${{ env.URL }}
-        export SHA256=${{ env.SHA256 }}
-        export VERSION=${{env.VERSION}}
+        export NAME="${{ env.NAME }}"
+        export URL="${{ env.URL }}"
+        export SHA256="${{ env.SHA256 }}"
+        export VERSION="${{env.VERSION}}"
+        echo $URL
         sudo ./build.sh
 
     - name: Build Raspbian Desktop
