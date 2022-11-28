@@ -6,14 +6,20 @@ set -eu
 
 
 
+#if [[ ! -v URL ]]; then
+#URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz"
+#SHA256="9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da"
+#NAME="hio-raspbian-buster-lite"
+#fi
+
 if [[ ! -v URL ]]; then
-URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz"
-SHA256="9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da"
+URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/2020-02-13-raspbian-buster-lite.zip"
+SHA256="12ae6e17bf95b6ba83beca61e7394e7411b45eba7e6a520f434b0748ea7370e8"
 NAME="hio-raspbian-buster-lite"
 fi
 
 IMAGE=${URL##*/}
-IMAGE="$(pwd)/${IMAGE%.*}"
+IMAGE="$(pwd)/${IMAGE%.*}.img"
 
 check_is_run_as_root
 
@@ -33,15 +39,18 @@ if [ ! -f /usr/bin/qemu-arm-static ]; then
 	die "Missing /usr/bin/qemu-arm-static"
 fi
 
-IMAGE_XZ="${IMAGE}.xz"
+IMAGE_ZIP="${IMAGE}.zip"
 
 step "Download"
-echo "$URL as $IMAGE_XZ"
-wget -q "$URL" -O "$IMAGE_XZ"
-check_sha256_sum "$IMAGE_XZ" $SHA256
+echo "$URL as $IMAGE_ZIP"
+wget -q "$URL" -O "$IMAGE_ZIP"
+check_sha256_sum "$IMAGE_ZIP" $SHA256
+
 
 step "Uzip"
-unxz "$IMAGE_XZ"
+unzip -o "$IMAGE_ZIP"
+rm "$IMAGE_ZIP"
+
 
 step "Resize image"
 img_resize "$IMAGE" 512
@@ -65,11 +74,12 @@ install -m 755 -o 0 -g 0  files/update-motd.d/* "$ROOT_DIR/etc/update-motd.d/"
 cp -r files/node-red "$ROOT_DIR/home/pi/.node-red"
 chown 1000:1000 -R "$ROOT_DIR/home/pi/.node-red"
 install -m 666 files/wpa_supplicant.example.conf "$ROOT_DIR/boot/wpa_supplicant.example.conf"
-echo "${VERSION:-vdev}" > "$ROOT_DIR/usr/lib/hub-version"
+echo "${TRAVIS_TAG:-vdev}" > "$ROOT_DIR/usr/lib/hub-version"
 
 
 step "Chroot enable"
 chroot_enable
+
 
 step "Run install.sh"
 cat install.sh | chroot_bash
@@ -94,15 +104,15 @@ step "Shrink img"
 img_shrink "$IMAGE"
 
 
-step "Zip $NAME-${VERSION:-vdev}"
-mv "$IMAGE" "$NAME-${VERSION:-vdev}.img"
-zip "$NAME-${VERSION:-vdev}.zip" "$NAME-${VERSION:-vdev}.img"
+step "Zip $NAME-${TRAVIS_TAG:-vdev}"
+mv "$IMAGE" "$NAME-${TRAVIS_TAG:-vdev}.img"
+zip "$NAME-${TRAVIS_TAG:-vdev}.zip" "$NAME-${TRAVIS_TAG:-vdev}.img"
 
 
 einfo "--- Grafana, InfluxDB, mqtt2influxdb ---"
 
 step "Rename img"
-mv "$NAME-${VERSION:-vdev}.img" "$IMAGE"
+mv "$NAME-${TRAVIS_TAG:-vdev}.img" "$IMAGE"
 
 
 step "Resize image"
@@ -140,6 +150,6 @@ step "Shrink img"
 img_shrink "$IMAGE"
 
 
-step "Zip $NAME-grafana-influxdb-${VERSION:-vdev}"
-mv $IMAGE "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
-zip "$NAME-grafana-influxdb-${VERSION:-vdev}.zip" "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
+step "Zip $NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}"
+mv $IMAGE "$NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}.img"
+zip "$NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}.zip" "$NAME-grafana-influxdb-${TRAVIS_TAG:-vdev}.img"
