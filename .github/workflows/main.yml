@@ -20,18 +20,26 @@ jobs:
 
     - name: Build Raspbian Lite
       env:
-        NAME: "hio-raspbian-buster-lite"
-        URL: "https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz"
-        SHA256: "9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da"
+        NAME: hio-raspbian-buster-lite
+        URL: https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz
+        SHA256: 9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da
       run: |
+        export NAME=${{ env.NAME }}
+        export URL=${{ env.URL }}
+        export SHA256=${{ env.SHA256 }}
+        export VERSION=${{env.VERSION}}
         sudo ./build.sh
 
     - name: Build Raspbian Desktop
       env:
-        NAME: "hio-raspbian-buster-desktop"
-        URL: "https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf.img.xz"
-        SHA256: "4d8f38d014a807198996693b90cbeef94e19d9fd7fbefba7068db8df4d698cdd"
+        NAME: hio-raspbian-buster-desktop
+        URL: https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf.img.xz
+        SHA256: 4d8f38d014a807198996693b90cbeef94e19d9fd7fbefba7068db8df4d698cdd
       run: |
+        export NAME=${{ env.NAME }}
+        export URL=${{ env.URL }}
+        export SHA256=${{ env.SHA256 }}
+        export VERSION=${{env.VERSION}}
         sudo ./build.sh
 
     - name: Release
