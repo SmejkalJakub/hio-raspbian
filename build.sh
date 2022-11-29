@@ -61,9 +61,9 @@ step "Enable ssh server"
 touch "$ROOT_DIR/boot/ssh"
 
 
-#step "Change hostname"
-#echo "hub" | tee "$ROOT_DIR/etc/hostname"
-#sed -i "s/raspberrypi/hub/" "$ROOT_DIR/etc/hosts"
+step "Change hostname"
+echo "hub" | tee "$ROOT_DIR/etc/hostname"
+sed -i "s/raspberrypi/hub/" "$ROOT_DIR/etc/hosts"
 
 
 step "Copy files"
