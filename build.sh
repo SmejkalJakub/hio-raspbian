@@ -106,47 +106,47 @@ mv "$IMAGE" "$NAME-${VERSION:-vdev}.img"
 zip "$NAME-${VERSION:-vdev}.zip" "$NAME-${VERSION:-vdev}.img"
 
 
-einfo "--- Grafana, InfluxDB, mqtt2influxdb ---"
-
-step "Rename img"
-mv "$NAME-${VERSION:-vdev}.img" "$IMAGE"
-
-
-step "Resize image"
-img_resize "$IMAGE" 640
-
-
-step "Mount img"
-img_mount "$IMAGE"
-
-
-step "Chroot enable"
-chroot_enable
-
-
-step "Run install-grafana-influxdb-mqtt2influxdb.sh"
-echo "pm2 resurrect" | cat - install-grafana-influxdb-mqtt2influxdb.sh | chroot_bash
-
-
-step "Clean up"
-chroot_cmd "pm2 kill"
-chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" clean -y'
-chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" autoremove -y'
-chroot_cmd "df -h"
-
-
-step "Chroot disable"
-chroot_disable
-
-
-step "Umount img"
-img_umount "$IMAGE"
-
-
-step "Shrink img"
-img_shrink "$IMAGE"
-
-
-step "Zip $NAME-grafana-influxdb-${VERSION:-vdev}"
-mv $IMAGE "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
-zip "$NAME-grafana-influxdb-${VERSION:-vdev}.zip" "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
+#einfo "--- Grafana, InfluxDB, mqtt2influxdb ---"
+#
+#step "Rename img"
+#mv "$NAME-${VERSION:-vdev}.img" "$IMAGE"
+#
+#
+#step "Resize image"
+#img_resize "$IMAGE" 640
+#
+#
+#step "Mount img"
+#img_mount "$IMAGE"
+#
+#
+#step "Chroot enable"
+#chroot_enable
+#
+#
+#step "Run install-grafana-influxdb-mqtt2influxdb.sh"
+#echo "pm2 resurrect" | cat - install-grafana-influxdb-mqtt2influxdb.sh | chroot_bash
+#
+#
+#step "Clean up"
+#chroot_cmd "pm2 kill"
+#chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" clean -y'
+#chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" autoremove -y'
+#chroot_cmd "df -h"
+#
+#
+#step "Chroot disable"
+#chroot_disable
+#
+#
+#step "Umount img"
+#img_umount "$IMAGE"
+#
+#
+#step "Shrink img"
+#img_shrink "$IMAGE"
+#
+#
+#step "Zip $NAME-grafana-influxdb-${VERSION:-vdev}"
+#mv $IMAGE "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
+#zip "$NAME-grafana-influxdb-${VERSION:-vdev}.zip" "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
