@@ -13,7 +13,6 @@ export DEBIAN_FRONTEND='noninteractive'
 
 set -eux
 
-sudo hostname hub
 step "Upgrade packages:"
 sudo apt update
 
