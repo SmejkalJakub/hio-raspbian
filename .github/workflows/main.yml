@@ -31,15 +31,6 @@ jobs:
       run: |
         sudo -E ./build.sh
 
-    - name: Build Raspbian Desktop
-      env:
-        NAME: hio-raspbian-buster-desktop
-        URL: https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf.img.xz
-        SHA256: 4d8f38d014a807198996693b90cbeef94e19d9fd7fbefba7068db8df4d698cdd
-        VERSION: ${{env.VERSION}}
-      run: |
-        sudo -E ./build.sh
-
     - name: Release
       if: ${{ github.event_name == 'release' }}
       uses: softprops/action-gh-release@v0.1.5
