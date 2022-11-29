@@ -94,11 +94,11 @@ img_umount() {
 	umount -l "${ROOT_DIR}/boot"
 	umount -l "${ROOT_DIR}"
 
-	sleep 5
+	sleep 10
 
 	kpartx -d -v "${IMAGE}"
 
-	sleep 5
+	sleep 10
 
 	rmdir "${ROOT_DIR}"
 }
@@ -190,7 +190,7 @@ img_shrink() {
 	fi
 
 	losetup -d "$loopback"
-	sleep 5
+	sleep 10
 
 	#Shrink partition
 	partnewsize=$(($minsize * $blocksize))
