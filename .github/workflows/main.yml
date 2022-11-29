@@ -16,7 +16,7 @@ jobs:
 
     - uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        packages: kpartx coreutils qemu-user-static zip unzip binfmt-support openssl systemd-container parted xz-utils
+        packages: kpartx coreutils qemu-user-static zip unzip binfmt-support openssl systemd-container parted xz-utils binfmt-support qemu-user-static
 
     - name: Build Raspbian Lite
       #env:
