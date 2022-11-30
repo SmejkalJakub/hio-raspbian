@@ -9,14 +9,8 @@ set -eu
 if [[ ! -v URL ]]; then
 URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz"
 SHA256="9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da"
-NAME="hio-raspbian-buster-lite"
+NAME="hio-raspbian-bullseye-lite"
 fi
-
-#if [[ ! -v URL ]]; then
-#URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/2020-02-13-raspbian-buster-lite.zip"
-#SHA256="12ae6e17bf95b6ba83beca61e7394e7411b45eba7e6a520f434b0748ea7370e8"
-#NAME="hio-raspbian-buster-lite"
-#fi
 
 IMAGE=${URL##*/}
 IMAGE="$(pwd)/${IMAGE%.*}"
