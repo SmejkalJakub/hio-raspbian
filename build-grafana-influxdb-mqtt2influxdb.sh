@@ -34,10 +34,14 @@ sudo systemctl disable influxdb || true
 sudo chown pi: -R /var/lib/influxdb
 pm2 start /usr/bin/influxd --name influxdb -- -config /etc/influxdb/influxdb.conf
 else
-step 'Start InfluxDB service: systemd'
+step 'Test InfluxDB service: systemd'
 sudo systemctl daemon-reload
 sudo systemctl enable influxdb
 sudo systemctl start influxdb
+
+sudo systemctl daemon-reload
+sudo systemctl disable influxdb
+sudo systemctl stop influxdb
 fi
 
 step 'Install mqtt2influxdb packages'
@@ -77,10 +81,16 @@ pm2 start /usr/sbin/grafana-server --name grafana -- \
  cfg:default.paths.plugins=/var/lib/grafana/plugins \
  cfg:default.paths.provisioning=/etc/grafana/provisioning
 else
-step 'Start InfluxDB service: systemd'
+step 'Test InfluxDB service: systemd'
 sudo systemctl daemon-reload
 sudo systemctl enable grafana-server
 sudo systemctl start grafana-server
+
+step 'Stop InfluxDB service: systemd'
+sudo systemctl daemon-reload
+sudo systemctl disable grafana-server
+sudo systemctl stop grafana-server
+
 fi
 
 step 'Save the PM2 state (so it will start after reboot)'
