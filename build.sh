@@ -4,6 +4,8 @@ set -eu
 
 . ./utils.sh
 
+
+
 if [[ ! -v URL ]]; then
 URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz"
 SHA256="9bf5234efbadd2d39769486e0a20923d8526a45eba57f74cda45ef78e2b628da"
@@ -60,9 +62,6 @@ sed -i "s/raspberrypi/hub/" "$ROOT_DIR/etc/hosts"
 
 step "Copy files"
 install -m 755 -o 0 -g 0  files/update-motd.d/* "$ROOT_DIR/etc/update-motd.d/"
-cp enable-grafana-influxdb-mqtt2influxdb.sh "$ROOT_DIR/usr/local/bin"
-chown 1000:1000 "$ROOT_DIR/usr/local/bin/enable-grafana-influxdb-mqtt2influxdb.sh"
-chmod +x "$ROOT_DIR/usr/local/bin/enable-grafana-influxdb-mqtt2influxdb.sh"
 cp -r files/node-red "$ROOT_DIR/home/pi/.node-red"
 chown 1000:1000 -R "$ROOT_DIR/home/pi/.node-red"
 install -m 666 files/wpa_supplicant.example.conf "$ROOT_DIR/boot/wpa_supplicant.example.conf"
@@ -76,14 +75,13 @@ chroot_enable
 step "Run install.sh"
 cat install.sh | chroot_bash
 
-step "Run install-grafana-influxdb-mqtt2influxdb.sh"
-echo "pm2 resurrect" | cat - build-grafana-influxdb-mqtt2influxdb.sh | chroot_bash
 
 step "Clean up"
 chroot_cmd "pm2 kill"
 chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" clean -y'
 chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" autoremove -y'
 chroot_cmd "df -h"
+
 
 step "Chroot disable"
 chroot_disable
@@ -100,3 +98,49 @@ img_shrink "$IMAGE"
 step "Zip $NAME-${VERSION:-vdev}"
 mv "$IMAGE" "$NAME-${VERSION:-vdev}.img"
 zip "$NAME-${VERSION:-vdev}.zip" "$NAME-${VERSION:-vdev}.img"
+
+
+einfo "--- Grafana, InfluxDB, mqtt2influxdb ---"
+
+step "Rename img"
+mv "$NAME-${VERSION:-vdev}.img" "$IMAGE"
+
+
+step "Resize image"
+img_resize "$IMAGE" 640
+
+
+step "Mount img"
+img_mount "$IMAGE"
+
+
+step "Chroot enable"
+chroot_enable
+
+
+step "Run install-grafana-influxdb-mqtt2influxdb.sh"
+echo "pm2 resurrect" | cat - install-grafana-influxdb-mqtt2influxdb.sh | chroot_bash
+
+
+step "Clean up"
+chroot_cmd "pm2 kill"
+chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" clean -y'
+chroot_cmd 'sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" autoremove -y'
+chroot_cmd "df -h"
+
+
+step "Chroot disable"
+chroot_disable
+
+
+step "Umount img"
+img_umount "$IMAGE"
+
+
+step "Shrink img"
+img_shrink "$IMAGE"
+
+
+step "Zip $NAME-grafana-influxdb-${VERSION:-vdev}"
+mv $IMAGE "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
+zip "$NAME-grafana-influxdb-${VERSION:-vdev}.zip" "$NAME-grafana-influxdb-${VERSION:-vdev}.img"
