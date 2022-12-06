@@ -78,24 +78,16 @@ img_mount() {
 
 	kpart_output=$(kpartx -v -a -s "$1")
 
-	sleep 40
-
 	loop_boot=/dev/mapper/$(echo "$kpart_output" | awk 'NR==1{print $3}')
 	loop_root=/dev/mapper/$(echo "$kpart_output" | awk 'NR==2{print $3}')
-
-	sleep 40
 
 	echo "loop_boot ${loop_boot}"
 	echo "loop_root ${loop_root}"
 
 	mkdir -p "$ROOT_DIR"
 
-	sleep 40
-
 	mount -o rw "${loop_root}" "${ROOT_DIR}"
 	mount -o rw "${loop_boot}" "${ROOT_DIR}/boot"
-
-	sleep 40
 }
 
 img_umount() {
