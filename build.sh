@@ -91,8 +91,8 @@ step "Umount img"
 img_umount "$IMAGE"
 
 
-#step "Shrink img"
-#img_shrink "$IMAGE"
+step "Shrink img"
+img_shrink "$IMAGE"
 
 
 step "Zip $NAME-${VERSION:-vdev}"
@@ -106,8 +106,8 @@ step "Rename img"
 mv "$NAME-${VERSION:-vdev}.img" "$IMAGE"
 
 
-#step "Resize image"
-#img_resize "$IMAGE" 640
+step "Resize image"
+img_resize "$IMAGE" 640
 
 
 step "Mount img"
