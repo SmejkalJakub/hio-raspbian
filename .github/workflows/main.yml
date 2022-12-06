@@ -10,7 +10,7 @@ env:
 
 jobs:
   build-lite:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
@@ -42,7 +42,7 @@ jobs:
           hio-raspbian-bullseye-lite-grafana-influxdb-${{env.VERSION}}.zip
 
   build-desktop:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
